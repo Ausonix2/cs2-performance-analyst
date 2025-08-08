@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Performance Analyst</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <main id="app-container">
+        <header class="app-header">
+            <div class="header-decoration"></div>
+            <h1>CS2 Performance Analyst</h1>
+            <p>Análisis de rendimiento y coaching por IA</p>
+        </header>
+        <div id="chat-history" class="chat-history">
+            <!-- Chat messages will be dynamically inserted here -->
+        </div>
+        <div id="loading" class="loading-indicator" style="display: none;">
+            <span></span><span></span><span></span>
+        </div>
+        
+        <div id="donation-banner" class="donation-banner hidden">
+            <span>Si te gusta esta herramienta, considera apoyar su desarrollo.</span>
+            <a href="https://paypal.me/ausonix?locale.x=es_ES&country.x=ES" target="_blank" class="donate-link-banner">Apoyar con PayPal</a>
+            <button id="close-donation-banner" class="close-banner-btn">&times;</button>
+        </div>
+
+        <form id="chat-form" class="chat-form" aria-label="Chat input form">
+            <button type="button" id="analyze-btn" class="analyze-btn" aria-label="Analyze Performance">
+                <span>ANALIZAR RENDIMIENTO</span>
+            </button>
+            <button type="button" id="support-btn" class="support-btn" aria-label="Support the Project">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span>APOYAR EL PROYECTO</span>
+            </button>
+            <div class="input-wrapper">
+                <input type="text" id="chat-input" placeholder="Haz una pregunta general sobre CS2..." autocomplete="off" aria-label="Chat message input" disabled>
+                <button type="submit" aria-label="Send message" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                        <path d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a.993.993 0 0 0-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87.99l.01 4.61c0 .71.73 1.2 1.39.91z"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+         <footer class="app-footer">
+            Project made by Ausonix
+        </footer>
+    </main>
+
+    <dialog id="stats-modal">
+        <div class="modal-header">
+            <h2>PROPORCIONA TUS DATOS</h2>
+            <div class="modal-tabs">
+                <button type="button" class="tab-btn active" data-tab="manual-entry">ENTRADA MANUAL</button>
+                <button type="button" class="tab-btn" data-tab="screenshot-upload">
+                    SUBIR CAPTURA
+                </button>
+                <button type="button" class="tab-btn" data-tab="replay-analysis">
+                    ANALIZAR REPLAY
+                </button>
+            </div>
+        </div>
+        <div class="modal-content">
+            <!-- Manual Entry Panel -->
+            <div id="manual-entry" class="tab-panel active">
+                <form id="stats-form">
+                    <p class="instructions">
+                        Introduce tus datos de <strong>Leetify.com</strong> basados en tus <strong>últimas 30 partidas</strong> para un análisis de nivel profesional.
+                    </p>
+                    
+                    <fieldset>
+                        <legend>Estadísticas Generales</legend>
+                        <div class="form-grid">
+                            <div class="form-field"><label for="win_rate">Win Rate (%)</label><input type="number" id="win_rate" name="win_rate" step="0.1" placeholder="38"></div>
+                            <div class="form-field"><label for="leetify_rating">Leetify Rating</label><input type="number" id="leetify_rating" name="leetify_rating" step="0.01" placeholder="-2.63"></div>
+                            <div class="form-field"><label for="hltv_rating">HLTV Rating</label><input type="number" id="hltv_rating" name="hltv_rating" step="0.01" placeholder="0.8"></div>
+                            <div class="form-field"><label for="kd_ratio">K/D Ratio</label><input type="number" id="kd_ratio" name="kd_ratio" step="0.01" placeholder="0.74"></div>
+                            <div class="form-field"><label for="avg_kills">Average Kills (por ronda)</label><input type="number" id="avg_kills" name="avg_kills" step="0.01" placeholder="0.62"></div>
+                            <div class="form-field"><label for="avg_deaths">Average Deaths (por ronda)</label><input type="number" id="avg_deaths" name="avg_deaths" step="0.01" placeholder="0.85"></div>
+                            <div class="form-field"><label for="adr">ADR (Daño por Ronda)</label><input type="number" id="adr" name="adr" step="0.1" placeholder="76.38"></div>
+                            <div class="form-field"><label for="hs_kill_percent">HS Kill (%)</label><input type="number" id="hs_kill_percent" name="hs_kill_percent" step="0.1" placeholder="42"></div>
+                            <div class="form-field"><label for="rounds_survived">Rounds Survived (%)</label><input type="number" id="rounds_survived" name="rounds_survived" step="0.1" placeholder="15"></div>
+                            <div class="form-field"><label for="best_weapon">Best Weapon</label><input type="text" id="best_weapon" name="best_weapon" placeholder="AK-47"></div>
+                            <div class="form-field"><label for="rounds_4v5_won">4v5 Rounds Won (%)</label><input type="number" id="rounds_4v5_won" name="rounds_4v5_won" step="0.1" placeholder="31"></div>
+                            <div class="form-field"><label for="rounds_5v4_won">5v4 Rounds Won (%)</label><input type="number" id="rounds_5v4_won" name="rounds_5v4_won" step="0.1" placeholder="66"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Multikills (Totales)</legend>
+                        <div class="form-grid">
+                            <div class="form-field"><label for="multikill_2k">2K</label><input type="number" id="multikill_2k" name="multikill_2k" placeholder="73"></div>
+                            <div class="form-field"><label for="multikill_3k">3K</label><input type="number" id="multikill_3k" name="multikill_3k" placeholder="14"></div>
+                            <div class="form-field"><label for="multikill_4k">4K</label><input type="number" id="multikill_4k" name="multikill_4k" placeholder="6"></div>
+                            <div class="form-field"><label for="multikill_5k">5K</label><input type="number" id="multikill_5k" name="multikill_5k" placeholder="2"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Duelos de Apertura</legend>
+                        <div class="form-grid">
+                            <div class="form-field"><label for="opening_attempts">Attempts (%)</label><input type="number" id="opening_attempts" name="opening_attempts" step="0.1" placeholder="34"></div>
+                            <div class="form-field"><label for="opening_success">Success (%)</label><input type="number" id="opening_success" name="opening_success" step="0.1" placeholder="37"></div>
+                            <div class="form-field"><label for="opening_traded">Traded when you die (%)</label><input type="number" id="opening_traded" name="opening_traded" step="0.1" placeholder="14"></div>
+                            <div class="form-field"><label for="opening_rating">Leetify Rating</label><input type="number" id="opening_rating" name="opening_rating" step="0.01" placeholder="-4.3"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Clutching</legend>
+                         <div class="form-grid">
+                            <div class="form-field"><label for="clutch_win_rate">Win Rate (%)</label><input type="number" id="clutch_win_rate" name="clutch_win_rate" step="0.1" placeholder="46"></div>
+                            <div class="form-field"><label for="clutch_1v1">1v1 Win Rate (%)</label><input type="number" id="clutch_1v1" name="clutch_1v1" step="0.1" placeholder="54"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Traded Deaths (Cuando mueres)</legend>
+                         <div class="form-grid">
+                             <div class="form-field"><label for="tradeable_deaths">Tradeable Deaths (Total)</label><input type="number" id="tradeable_deaths" name="tradeable_deaths" placeholder="174"></div>
+                             <div class="form-field"><label for="traded_deaths_attempts">Attempts by Teammate (%)</label><input type="number" id="traded_deaths_attempts" name="traded_deaths_attempts" step="0.1" placeholder="94"></div>
+                             <div class="form-field"><label for="traded_deaths_success">Success by Teammate (%)</label><input type="number" id="traded_deaths_success" name="traded_deaths_success" step="0.1" placeholder="43"></div>
+                         </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Trade Kills (Cuando un compañero muere)</legend>
+                         <div class="form-grid">
+                             <div class="form-field"><label for="trade_kills_opps">Opportunities (Total)</label><input type="number" id="trade_kills_opps" name="trade_kills_opps" placeholder="161"></div>
+                             <div class="form-field"><label for="trade_kills_attempts">Your Attempts (%)</label><input type="number" id="trade_kills_attempts" name="trade_kills_attempts" step="0.1" placeholder="88"></div>
+                             <div class="form-field"><label for="trade_kills_success">Your Success (%)</label><input type="number" id="trade_kills_success" name="trade_kills_success" step="0.1" placeholder="39"></div>
+                         </div>
+                    </fieldset>
+                    
+                    <div class="form-actions">
+                         <button type="button" class="modal-cancel-btn">CANCELAR</button>
+                         <button type="submit">ANALIZAR ESTADÍSTICAS</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Screenshot Upload Panel -->
+            <div id="screenshot-upload" class="tab-panel">
+                 <form id="screenshot-form">
+                    <p class="instructions">
+                        Sube una captura de pantalla de tus estadísticas de <strong>Leetify, Scope.gg,</strong> etc. Asegúrate de que los números sean claros y legibles.
+                    </p>
+                    <label for="screenshot-input" class="file-input-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                        <span>SELECCIONAR ARCHIVO</span>
+                    </label>
+                    <input type="file" id="screenshot-input" accept="image/*">
+                    <div id="file-name-display">Ningún archivo seleccionado</div>
+                    <img id="screenshot-preview" alt="Screenshot preview" class="hidden">
+                    <div class="form-actions">
+                        <button type="button" class="modal-cancel-btn">CANCELAR</button>
+                        <button type="submit">ANALIZAR CAPTURA</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Replay Analysis Panel -->
+            <div id="replay-analysis" class="tab-panel">
+                 <form id="replay-form">
+                    <p class="instructions">
+                        Ve a tu partida en <strong>Leetify.com</strong>, copia el resumen de rondas o eventos clave, y pégalo aquí. La IA analizará tus decisiones tácticas.
+                    </p>
+                    <textarea id="replay-input" name="replay_data" placeholder="Pega aquí el resumen de tu partida... (Ej: Ronda 5: Muerte en Larga de A por AWP enemigo / Ronda 12: Ganas clutch 1v2 en B)"></textarea>
+                    <div class="form-actions">
+                        <button type="button" class="modal-cancel-btn">CANCELAR</button>
+                        <button type="submit">ANALIZAR REPLAY</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="donation-modal">
+        <div class="donation-modal-content">
+            <h3>¿Te está gustando el Coach de IA?</h3>
+            <p>Si esta herramienta te está ayudando a mejorar, considera hacer una pequeña donación para apoyar el desarrollo y mantenimiento del proyecto. ¡Cualquier ayuda es bienvenida!</p>
+            <div class="form-actions">
+                <button type="button" id="close-donation-modal">Quizás más tarde</button>
+                <a href="https://paypal.me/ausonix?locale.x=es_ES&country.x=ES" target="_blank" id="paypal-link-modal" class="donate-link-modal">Apoyar con PayPal</a>
+            </div>
+        </div>
+    </dialog>
+
+    <script type="importmap">
+    {
+        "imports": {
+        "@google/genai": "https://esm.sh/@google/genai@^0.14.0"
+        }
+    }
+    </script>
+    <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
