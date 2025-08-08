@@ -1,14 +1,23 @@
-# Run and deploy your AI Studio app
+CS2 Performance Analyst
+El entrenador de IA gratuito para Counter-Strike 2.
 
-This contains everything you need to run your app locally.
+CS2 Performance Analyst es una herramienta innovadora diseñada para ayudarte a mejorar en el juego. Utilizando un modelo de IA avanzado, analiza tus métricas de rendimiento y te ofrece insights personalizados y estrategias prácticas. Olvídate de la programación y el análisis complejo; esta herramienta te da la información que necesitas para subir de rango y perfeccionar tu juego de forma sencilla.
 
-## Run Locally
+¿Cómo usarlo?
+Puedes acceder a la herramienta directamente a través del siguiente enlace: https://ausonix2.vercel.app/. No necesitas descargar ni instalar nada, solo tienes que entrar y seguir las instrucciones.
 
-**Prerequisites:**  Node.js
+Made by Ausonix
 
+Sígueme en mis redes sociales:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Twitch: https://www.twitch.tv/ausonix2
+
+Kick: https://kick.com/ausonix
+
+YouTube: https://www.youtube.com/@ausonix
+
+Twitter: https://x.com/RealAusonix
+
+Instagram: https://www.instagram.com/Ausonix
+
+TikTok: https://www.tiktok.com/@Ausonix
